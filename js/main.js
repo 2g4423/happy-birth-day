@@ -134,8 +134,9 @@ const createCanvasForTexture = (canvasWidth, canvasHeight, text, fontSize) => {
   ctx.canvas.height = canvasHeight;
   ctx.fillStyle = 'rgba(0, 0, 0, 0)';
   ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-
-  ctx.font = `bold ${fontSize}vw sans-serif`;
+  console.log(width);
+  const fs = width > 1200 ? `300px` : `${fontSize}vw`;
+  ctx.font = `bold ${fs} sans-serif`;
   ctx.fillStyle = 'yellow';
   ctx.fillText(
     text,
