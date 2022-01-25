@@ -116,8 +116,9 @@ render();
 const createTexture = (filePath) => {
   return new THREE.TextureLoader().load(filePath);
 };
+
 const wideImageTexture = createTexture('https://dummyimage.com/200x100/4a9e62/fff.png');
-// spriteを作成し、sceneに追加
+
 const createSprite = (texture, scale, position) => {
   const spriteMaterial = new THREE.SpriteMaterial({ map: texture });
   const sprite = new THREE.Sprite(spriteMaterial);
@@ -125,20 +126,20 @@ const createSprite = (texture, scale, position) => {
   sprite.position.set(position.x, position.y, position.z);
   scene.add(sprite);
 };
+
 const createCanvasForTexture = (canvasWidth, canvasHeight, text, fontSize) => {
   const canvasForText = document.createElement('canvas');
   const ctx = canvasForText.getContext('2d');
-  ctx.canvas.width = canvasWidth; // 小さいと文字がぼやける
-  ctx.canvas.height = canvasHeight; // 小さいと文字がぼやける
+  ctx.canvas.width = canvasWidth;
+  ctx.canvas.height = canvasHeight;
   ctx.fillStyle = 'rgba(0, 0, 0, 0)';
   ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-  ctx.fillStyle = 'yellow';
+
   ctx.font = `bold ${fontSize}vw sans-serif`;
+  ctx.fillStyle = 'yellow';
   ctx.fillText(
     text,
-    // x方向の余白/2をx方向開始時の始点とすることで、横方向の中央揃えをしている。
     (canvasWidth - ctx.measureText(text).width) / 2,
-    // y方向のcanvasの中央に文字の高さの半分を加えることで、縦方向の中央揃えをしている。
     canvasHeight / 2 + ctx.measureText(text).actualBoundingBoxAscent / 2
   );
   return canvasForText;
@@ -147,7 +148,9 @@ const createCanvasForTexture = (canvasWidth, canvasHeight, text, fontSize) => {
 const canvasTexture = new THREE.CanvasTexture(
   createCanvasForTexture(width * 10, height * 10, 'Congratulation!!', 30)
 );
+
 const scaleMaster = width;
+
 createSprite(
   canvasTexture,
   {
