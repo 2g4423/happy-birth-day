@@ -2,6 +2,20 @@
 
 const width = document.body.clientWidth;
 const height = document.body.clientHeight;
+const canvas = document.getElementById('stage');
+canvas.width = width;
+canvas.height = height;
+
+(function confettiAnime() {
+  confetti({
+    origin: {
+      x: Math.random()
+    }
+  });
+  setTimeout(function () {
+    requestAnimationFrame(confettiAnime);
+  }, 500);
+})();
 
 // scene
 const scene = new THREE.Scene(); //3Dを表現する空間
@@ -78,16 +92,18 @@ scene.add(ambient);
 
 // camera
 const camera = new THREE.PerspectiveCamera(90, width / height, 1, 1000);
-const controls = new THREE.OrbitControls(camera, document.getElementById('stage'));
+const controls = new THREE.OrbitControls(camera, canvas);
 camera.position.set(0, 120, 160);
 camera.lookAt(scene.position);
 
 // renderer
-const renderer = new THREE.WebGLRenderer({ antialias: true });
+const renderer = new THREE.WebGLRenderer({
+  antialias: true,
+  canvas: canvas
+});
 renderer.setSize(width, height);
 renderer.setClearColor(0xe6e6fa);
 renderer.setPixelRatio(window.devicePixelRatio);
-document.getElementById('stage').appendChild(renderer.domElement);
 
 function render() {
   requestAnimationFrame(render);
@@ -96,3 +112,48 @@ function render() {
 }
 
 render();
+
+const createTexture = (filePath) => {
+  return new THREE.TextureLoader().load(filePath);
+};
+const wideImageTexture = createTexture('https://dummyimage.com/200x100/4a9e62/fff.png');
+// spriteを作成し、sceneに追加
+const createSprite = (texture, scale, position) => {
+  const spriteMaterial = new THREE.SpriteMaterial({ map: texture });
+  const sprite = new THREE.Sprite(spriteMaterial);
+  sprite.scale.set(scale.x, scale.y, scale.z);
+  sprite.position.set(position.x, position.y, position.z);
+  scene.add(sprite);
+};
+const createCanvasForTexture = (canvasWidth, canvasHeight, text, fontSize) => {
+  const canvasForText = document.createElement('canvas');
+  const ctx = canvasForText.getContext('2d');
+  ctx.canvas.width = canvasWidth; // 小さいと文字がぼやける
+  ctx.canvas.height = canvasHeight; // 小さいと文字がぼやける
+  ctx.fillStyle = 'rgba(0, 0, 0, 0)';
+  ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+  ctx.fillStyle = 'yellow';
+  ctx.font = `bold ${fontSize}vw sans-serif`;
+  ctx.fillText(
+    text,
+    // x方向の余白/2をx方向開始時の始点とすることで、横方向の中央揃えをしている。
+    (canvasWidth - ctx.measureText(text).width) / 2,
+    // y方向のcanvasの中央に文字の高さの半分を加えることで、縦方向の中央揃えをしている。
+    canvasHeight / 2 + ctx.measureText(text).actualBoundingBoxAscent / 2
+  );
+  return canvasForText;
+};
+
+const canvasTexture = new THREE.CanvasTexture(
+  createCanvasForTexture(width * 10, height * 10, 'Congratulation!!', 30)
+);
+const scaleMaster = width;
+createSprite(
+  canvasTexture,
+  {
+    x: scaleMaster,
+    y: scaleMaster * (height / width),
+    z: scaleMaster
+  },
+  { x: 0, y: 100, z: 0 }
+);
