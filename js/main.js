@@ -89,7 +89,6 @@ canvas.height = height;
   );
 
   const msg = getUrlQueries().msg || 'Congratulations!!';
-  alert(msg);
   const canvasTexture = new THREE.CanvasTexture(createCanvasForTexture(width * 10, height * 10, msg, 28));
 
   const sprite = createSprite(
