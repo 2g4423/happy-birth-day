@@ -109,7 +109,7 @@ canvas.height = height;
 
   // camera
   const camera = new THREE.PerspectiveCamera(90, width / height, 1, 1000);
-  // const controls = new THREE.OrbitControls(camera, canvas);
+  const controls = new THREE.OrbitControls(camera, canvas);
   camera.position.set(0, 120, 160);
   camera.lookAt(scene.position);
 
