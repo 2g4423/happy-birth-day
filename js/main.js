@@ -10,13 +10,14 @@ canvas.height = height;
 
 (function confettiAnime() {
   const angle = width < 800 ? 80 : 60;
+  const x = width < 1200 ? 0 : 0.2;
   confetti({
     angle: angle,
-    origin: { x: 0, y: 0.5 }
+    origin: { x: x, y: 0.5 }
   });
   confetti({
     angle: 180 - angle,
-    origin: { x: 1, y: 0.5 }
+    origin: { x: 1 - x, y: 0.5 }
   });
   setTimeout(function () {
     requestAnimationFrame(confettiAnime);
