@@ -88,13 +88,16 @@ canvas.height = height;
     }
   );
 
+  const canvasWidth = 500;
+  const canvasHeight = 140;
   const msg = getUrlQueries().msg || 'Congratulations!!';
-  const canvasTexture = new THREE.CanvasTexture(createCanvasForTexture(width * 10, height * 10, msg, 28));
+  const canvasTexture = new THREE.CanvasTexture(createCanvasForTexture(canvasWidth, canvasHeight, msg, 28));
 
+  const scaleMaster = 70;
   const sprite = createSprite(
     canvasTexture,
-    { x: width, y: width * (height / width), z: 0 },
-    { x: 0, y: 0, z: 0 }
+    { x: scaleMaster, y: scaleMaster * (canvasHeight / canvasWidth), z: scaleMaster },
+    { x: 0, y: 100, z: 0 }
   );
 
   // light
