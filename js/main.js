@@ -94,7 +94,7 @@ canvas.height = height;
   const sprite = createSprite(
     canvasTexture,
     { x: width, y: width * (height / width), z: width },
-    { x: 0, y: 70, z: 0 }
+    { x: 0, y: 100, z: 0 }
   );
 
   // light
@@ -144,7 +144,7 @@ function createCanvasForTexture(width, height, text, fontSize) {
   const ctx = canvasForText.getContext('2d');
   ctx.canvas.width = width;
   ctx.canvas.height = height;
-  ctx.fillStyle = 'rgba(0, 0, 0, 0)';
+  ctx.fillStyle = 'rgba(0, 0, 0, 1)';
   ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 
   const fs = document.body.clientWidth < 1200 ? `${fontSize}vw` : `300px`;
