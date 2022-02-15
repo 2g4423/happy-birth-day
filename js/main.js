@@ -97,7 +97,7 @@ canvas.height = height;
   const sprite = createSprite(
     canvasTexture,
     { x: scaleMaster, y: scaleMaster * (canvasHeight / canvasWidth), z: scaleMaster },
-    { x: 0, y: 100, z: 0 }
+    { x: getUrlQueries().x, y: getUrlQueries().y, z: getUrlQueries().z }
   );
 
   // light
