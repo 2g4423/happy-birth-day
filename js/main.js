@@ -1,38 +1,13 @@
 'use strict';
 
-import { getUrlQueries } from './utils.js';
-
-const width = document.body.clientWidth;
-const height = document.body.clientHeight;
-const canvas = document.getElementById('canvas');
-canvas.width = width;
-canvas.height = height;
-
-const CONFIG = {
-  breakPoint: 1200,
-  fontSize: {
-    sp: '28vw',
-    pc: '300px'
-  }
-};
-
-(function confettiAnime() {
-  const angle = width < 800 ? 80 : 60;
-  const x = width < 1200 ? 0 : 0.2;
-  confetti({
-    angle: angle,
-    origin: { x: x, y: 0.5 }
-  });
-  confetti({
-    angle: 180 - angle,
-    origin: { x: 1 - x, y: 0.5 }
-  });
-  setTimeout(function () {
-    requestAnimationFrame(confettiAnime);
-  }, 1000);
-})();
+import { getUrlQueries, getFontSize, getWindowSize } from './utils.js';
 
 (function init() {
+  const { width, height } = getWindowSize();
+  const canvas = document.getElementById('canvas');
+  canvas.width = width;
+  canvas.height = height;
+
   // cake
   const cake = createCake();
   const message = createMessage();
@@ -70,12 +45,25 @@ const CONFIG = {
     cake.rotation.y -= 0.01;
   }
 
-  render();
-})();
+  function confettiAnime() {
+    const angle = width < 800 ? 80 : 60;
+    const x = width < 1200 ? 0 : 0.2;
+    confetti({
+      angle: angle,
+      origin: { x: x, y: 0.5 }
+    });
+    confetti({
+      angle: 180 - angle,
+      origin: { x: 1 - x, y: 0.5 }
+    });
+    setTimeout(function () {
+      requestAnimationFrame(confettiAnime);
+    }, 1000);
+  }
 
-function getFontSize() {
-  return document.body.clientWidth < CONFIG.breakPoint ? CONFIG.fontSize.sp : CONFIG.fontSize.pc;
-}
+  render();
+  confettiAnime();
+})();
 
 function createCake() {
   // material
@@ -144,6 +132,22 @@ function createCake() {
   return cake;
 }
 
+function getCanvasSize(text) {
+  const canvas = document.createElement('canvas');
+  const ctx = canvas.getContext('2d');
+  const fontSize = getFontSize();
+
+  ctx.font = `bold ${fontSize} sans-serif`;
+
+  const margin = 80;
+  const mesure = ctx.measureText(text);
+
+  return {
+    width: mesure.width + margin,
+    height: mesure.actualBoundingBoxAscent + mesure.actualBoundingBoxDescent + margin
+  };
+}
+
 function createMessage() {
   const msg = getUrlQueries().msg || 'Congratulations!!';
   const canvasSize = getCanvasSize(msg);
@@ -189,20 +193,4 @@ function createCanvasForTexture(width, height, text) {
   );
 
   return canvas;
-}
-
-function getCanvasSize(text) {
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
-  const fontSize = getFontSize();
-
-  ctx.font = `bold ${fontSize} sans-serif`;
-
-  const margin = 80;
-  const mesure = ctx.measureText(text);
-
-  return {
-    width: mesure.width + margin,
-    height: mesure.actualBoundingBoxAscent + mesure.actualBoundingBoxDescent + margin
-  };
 }
