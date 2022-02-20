@@ -45,28 +45,28 @@ import { getScreenSize, getFontSize, getConfettiProps, getUrlQueries } from './u
     cake.rotation.y -= 0.01;
   }
 
-  function confettiAnime() {
-    const {
-      angle,
-      origin: { x, y }
-    } = getConfettiProps();
-
-    confetti({
-      angle,
-      origin: { x, y }
-    });
-    confetti({
-      angle: 180 - angle,
-      origin: { x: 1 - x, y }
-    });
-
-    setTimeout(function () {
-      requestAnimationFrame(confettiAnime);
-    }, 1000);
-  }
-
   render();
-  confettiAnime();
+  window.addEventListener('resize', init);
+})();
+
+(function confettiAnimeation() {
+  const {
+    angle,
+    origin: { x, y }
+  } = getConfettiProps();
+
+  confetti({
+    angle,
+    origin: { x, y }
+  });
+  confetti({
+    angle: 180 - angle,
+    origin: { x: 1 - x, y }
+  });
+
+  setTimeout(function () {
+    requestAnimationFrame(confettiAnimeation);
+  }, 1000);
 })();
 
 function createCake() {
