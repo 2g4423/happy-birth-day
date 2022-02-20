@@ -1,6 +1,6 @@
 # happy-birth-day
 
-Let's celebrate whoever's having a birthday!
+Celebrate people who are having a birthday!
 
 ## ussage
 
@@ -10,6 +10,6 @@ https://2g4423.github.io/happy-birthday/
 
 ## query string
 
-| name | description                                |
-| ---- | ------------------------------------------ |
-| msg  | Your message. (default: Congratulations!!) |
+| name | description                                         |
+| ---- | --------------------------------------------------- |
+| msg  | Congratulatory mssage. (default: Congratulations!!) |
