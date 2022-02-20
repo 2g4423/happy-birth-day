@@ -6,7 +6,7 @@ Let's celebrate whoever's having a birthday!
 
 Send ⬇️ URL.
 
-https://2g4423.github.io/happy-birth-day/
+https://2g4423.github.io/happy-birthday/
 
 ## query string
 
