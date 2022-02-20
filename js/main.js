@@ -1,9 +1,9 @@
 'use strict';
 
-import { getUrlQueries, getFontSize, getWindowSize } from './utils.js';
+import { getScreenSize, getFontSize, getConfettiProps, getUrlQueries } from './utils.js';
 
 (function init() {
-  const { width, height } = getWindowSize();
+  const { width, height } = getScreenSize();
   const canvas = document.getElementById('canvas');
   canvas.width = width;
   canvas.height = height;
@@ -46,16 +46,20 @@ import { getUrlQueries, getFontSize, getWindowSize } from './utils.js';
   }
 
   function confettiAnime() {
-    const angle = width < 800 ? 80 : 60;
-    const x = width < 1200 ? 0 : 0.2;
+    const {
+      angle,
+      origin: { x, y }
+    } = getConfettiProps();
+
     confetti({
-      angle: angle,
-      origin: { x: x, y: 0.5 }
+      angle,
+      origin: { x, y }
     });
     confetti({
       angle: 180 - angle,
-      origin: { x: 1 - x, y: 0.5 }
+      origin: { x: 1 - x, y }
     });
+
     setTimeout(function () {
       requestAnimationFrame(confettiAnime);
     }, 1000);
@@ -98,10 +102,10 @@ function createCake() {
           side: THREE.DoubleSide
         }),
         message = 'Happy birthday!!',
-        shapes = font.generateShapes(message, 8), // 文字の大きさを設定
-        text_geometry = new THREE.ShapeGeometry(shapes), // ジオメトリを設定
-        text = new THREE.Mesh(text_geometry, matLite); // textという変数を作成し設定したジオメトリ・マテリアルにメッシュのクラスに引数として渡す
-      chocolate.add(text); // シーンに作成したtextを引数として渡す。
+        shapes = font.generateShapes(message, 8),
+        text_geometry = new THREE.ShapeGeometry(shapes),
+        text = new THREE.Mesh(text_geometry, matLite);
+      chocolate.add(text);
       text.position.set(-40, 1.1, 5);
       text.rotation.set(-Math.PI / 2, 0, 0);
     }
@@ -170,6 +174,7 @@ function createSprite(texture, scale, position) {
   const sprite = new THREE.Sprite(spriteMaterial);
   sprite.scale.set(scale.x, scale.y, scale.z);
   sprite.position.set(position.x, position.y, position.z);
+
   return sprite;
 }
 
