@@ -1,4 +1,4 @@
-# happy-birth-day
+# Happy Birthday
 
 Celebrate people who are having a birthday!
 
@@ -6,7 +6,7 @@ Celebrate people who are having a birthday!
 
 Send ⬇️ URL.
 
-https://2g4423.github.io/works-happy-birthday/
+https://yoshifumitsuji.github.io/works-happy-birthday/
 
 ## query string
 
